@@ -1,9 +1,8 @@
 #!/bin/bash
-DEVICE='0'
 SPLIT='test'
 CORPUS='corpus.jsonl'
-BSZ=4
-DATA='/workspace/directory/InstructIR/INSTRUCTIR'
+DATA='/brtx/606-nvme2/oweller2/FollowIR/InstructIR/INSTRUCTIR'
+BSZ=32
 
 echo "DEVICE = $DEVICE"
 echo "SPLIT = $SPLIT"
@@ -14,10 +13,9 @@ echo "DATA = $DATA"
 ########################################################
 ###### - version : Normal inference mode
 ########################################################
-for MODEL in "facebook/contriever-msmarco" "../ckpt/tart-dual-contriever-msmarco/" "hkunlp/instructor-base" 'hkunlp/instructor-large'\
- 'hkunlp/instructor-xl' 'sentence-transformers/gtr-t5-base' 'sentence-transformers/gtr-t5-large' 'sentence-transformers/gtr-t5-xl' 'castorini/repllama-v1-7b-lora-passage' 'intfloat/e5-mistral-7b-instruct'; do
+for MODEL in "facebook/contriever-msmarco" ; do
     echo $MODEL
-    CUDA_VISIBLE_DEVICES=$DEVICE python eval_instructir_dense.py \
+    python eval_instructir_dense.py \
         --split $SPLIT \
         --eval_datasets_dir $DATA \
         --corpus_file $CORPUS \

@@ -43,7 +43,7 @@ def main(args):
     logging.info("File converted")
     #### Download Docker Image beir/pyserini-fastapi ####
     #### Locally run the docker Image + FastAPI ####
-    docker_beir_pyserini = "http://10.1.210.12:8000"
+    docker_beir_pyserini = "http://localhost:8000"
 
     #### Upload Multipart-encoded files ####
     with open(os.path.join(args.data_path, pyserini_jsonl), "rb") as fIn:

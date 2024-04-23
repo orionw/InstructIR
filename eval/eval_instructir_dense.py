@@ -152,32 +152,40 @@ def main(args):
     #### Retrieve dense results (format of results is identical to qrels)
     results = retriever.retrieve(corpus, queries)
 
+    # save the results
+    safe_model_name = og_args.model_path.replace('/','_')
+    if not os.path.exists(f'model_pred/{safe_model_name}'):
+        os.makedirs(f'model_pred/{safe_model_name}')
+    with open(f'model_pred/{safe_model_name}/results.pickle','wb') as f:
+        pickle.dump(results,f)
+
     #### Evaluate your retrieval using NDCG@k, MAP@K ...
     logging.info("Retriever evaluation for k in: {}".format(retriever.k_values))
     metrics = retriever.robustness_evaluate(queries, qrels, results, retriever.k_values,type='query')
+    print(metrics)
 
     #### Print top-k documents retrieved ####
-    top_k = 10
-    random.seed(42)
-    query_id, ranking_scores = random.choice(list(results.items()))
-    # query_id, ranking_scores = list(results.items())[7]
+    # top_k = 10
+    # random.seed(42)
+    # query_id, ranking_scores = random.choice(list(results.items()))
+    # # query_id, ranking_scores = list(results.items())[7]
 
-    scores_sorted = sorted(ranking_scores.items(), key=lambda item: item[1], reverse=True)
-    logging.info(f"Qid: {query_id} / Query : \n { queries[query_id]}\n")
-    pid = list(qrels[query_id].keys())[0]
-    logging.info(f"GT Target - {pid}: \n{corpus[pid]['text'] }\n")
-    print("#"*60)
-    cnt=0
-    for rank in range(top_k):
-        doc_id = scores_sorted[rank][0]
-        # Format: Rank x: ID [Title] Body
-        logging.info(f"Rank {rank+1}: ({doc_id in qrels[query_id]} / score - {qrels[query_id][doc_id] if qrels[query_id].get(doc_id) else 0} ) {doc_id} [{corpus[doc_id].get('title')}]")
-        logging.info("%s\n" % ( corpus[doc_id].get("text")) )
+    # scores_sorted = sorted(ranking_scores.items(), key=lambda item: item[1], reverse=True)
+    # logging.info(f"Qid: {query_id} / Query : \n { queries[query_id]}\n")
+    # pid = list(qrels[query_id].keys())[0]
+    # logging.info(f"GT Target - {pid}: \n{corpus[pid]['text'] }\n")
+    # print("#"*60)
+    # cnt=0
+    # for rank in range(top_k):
+    #     doc_id = scores_sorted[rank][0]
+    #     # Format: Rank x: ID [Title] Body
+    #     logging.info(f"Rank {rank+1}: ({doc_id in qrels[query_id]} / score - {qrels[query_id][doc_id] if qrels[query_id].get(doc_id) else 0} ) {doc_id} [{corpus[doc_id].get('title')}]")
+    #     logging.info("%s\n" % ( corpus[doc_id].get("text")) )
 
-        flag = 1 if doc_id in qrels[query_id] else 0
-        cnt+=flag
+    #     flag = 1 if doc_id in qrels[query_id] else 0
+    #     cnt+=flag
 
-    print("Cnt:", cnt)
+    # print("Cnt:", cnt)
 
     ##### Save
     # data_path = og_args.eval_datasets_dir.split('/')[-2]

@@ -2,7 +2,7 @@
 
 SPLIT='test'
 CORPUS='corpus.jsonl'
-DATA='INSTRUCTIR'
+DATA='/brtx/606-nvme2/oweller2/FollowIR/InstructIR/INSTRUCTIR'
 RERANK_FROM=bm25
 
 echo "SPLIT = $SPLIT"

@@ -2,7 +2,7 @@
 
 SPLIT='test'
 CORPUS='corpus.jsonl'
-DATA='INSTRUCTIR'
+DATA='/brtx/606-nvme2/oweller2/FollowIR/InstructIR/INSTRUCTIR'
 
 echo "SPLIT = $SPLIT"
 echo "CORPUS = $CORPUS"
